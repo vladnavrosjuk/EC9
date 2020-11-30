@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
-import auth = firebase.auth;
 import { from, Observable, of } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CrudService } from '../crud/crud.service';
+import auth = firebase.auth;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   public user$: Observable<firebase.User>;
@@ -21,12 +21,9 @@ export class AuthService {
     this.user$ = this.angAuthService.authState.pipe(
       switchMap((user: firebase.User) => {
         if (user) {
-          return this.firestoreService
-            .doc<firebase.User>(`users/${user.uid}`)
-            .valueChanges();
-        } else {
-          return of(null);
+          return this.firestoreService.doc<firebase.User>(`users/${user.uid}`).valueChanges();
         }
+        return of(null);
       })
     );
   }

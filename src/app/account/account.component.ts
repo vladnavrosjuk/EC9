@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CrudService } from '../services/crud/crud.service';
 import { Subscription } from 'rxjs';
+import { CrudService } from '../services/crud/crud.service';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountComponent implements OnInit {
   constructor(private crudService: CrudService) {}
@@ -14,8 +14,6 @@ export class AccountComponent implements OnInit {
   public testSubscribe: Subscription;
 
   ngOnInit(): void {
-    this.testSubscribe = this.crudService
-      .getData('books')
-      .subscribe((value) => console.log(value));
+    this.testSubscribe = this.crudService.getData('books').subscribe((value) => console.log(value));
   }
 }

@@ -1,27 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CrudService } from './services/crud/crud.service';
 import { AuthService } from './services/auth/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'firebasetest';
 
   public books: any[];
 
-  constructor(
-    private crudService: CrudService,
-    public authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private crudService: CrudService, public authService: AuthService, private router: Router) {}
 
   public navigate(): void {
     this.router.navigate(['home']);
@@ -32,9 +24,7 @@ export class AppComponent {
   }
 
   public readObject(): void {
-    this.crudService
-      .getData<any>('books')
-      .subscribe((value: any[]) => console.log(value));
+    this.crudService.getData<any>('books').subscribe((value: any[]) => console.log(value));
   }
 
   public updateObject(): void {

@@ -7,6 +7,6 @@ export const environment = {
     projectId: 'ec9test',
     storageBucket: 'ec9test.appspot.com',
     messagingSenderId: '206984422247',
-    appId: '1:206984422247:web:b645e1b31887dd0e89c5c2'
-  }
+    appId: '1:206984422247:web:b645e1b31887dd0e89c5c2',
+  },
 };
