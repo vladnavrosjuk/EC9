@@ -1,17 +1,11 @@
-<button (click)="addObject()"> Create</button>
-<button (click)="readObject()"> read</button>
-<button (click)="updateObject()"> Update</button>
-<button (click)="delete()"> Delete</button>
-<button (click)="login()"> Login</button>
-<button (click)="navigate()"> Navigate</button>
-<button (click)="logout()"> logout</button>
-<button (click)="getBooks()"> Get Books</button>
-<button (click)="deleteBooks()"> Delete Books</button>
-<ng-container *ngIf="books">
-  <div *ngFor="let book of books">
-    {{book.name}}
-  </div>
-</ng-container>
-<img *ngIf="(authService.user$ | async)" src="{{(authService.user$ | async).photoURL}}">
+<div>Header</div>
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>
+<a routerLink="/home" routerLinkActive="active-link"> Go home </a>
+<a routerLink="/account" routerLinkActive="active-link"> Go Account </a>
+<button (click)="navigate()"> Go home button</button>
 <router-outlet></router-outlet>
+<div>Footer</div>
+
+
 

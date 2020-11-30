@@ -7,12 +7,12 @@ import {AuthGuard} from './services/auth/auth.guard';
 
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
   {
+    path: 'home', component: HomeComponent, canActivate: [AuthGuard]
+  }, {
     path: 'account',
-    loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
-  }
-];
+    loadChildren : () => import('./account/account.module').then(m => m.AccountModule)
+  }];
 
 @NgModule({
 

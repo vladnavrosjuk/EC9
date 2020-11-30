@@ -6,8 +6,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'firebasetest';
@@ -15,8 +14,13 @@ export class AppComponent {
   public books: any[];
 
 
-  constructor(private crudService: CrudService, public authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(private crudService: CrudService, public authService: AuthService, private router: Router) {
   }
+
+  public navigate(): void {
+    this.router.navigate(["home"]);
+  }
+
 
   public addObject(): void {
     this.crudService.createEntity('books', {name: 'asdsadasdc'});
@@ -40,12 +44,9 @@ export class AppComponent {
   }
 
   public logout(): void {
-    this.authService.signOut().subscribe(() => this.router.navigate(['home']));
+    this.authService.signOut().subscribe(() => { this.router.navigate([""])});
   }
 
-  public navigate(): void {
-    this.router.navigate(['account']);
-  }
 
   public getBooks(): void {
     this.crudService.getData('books').subscribe(value => {
