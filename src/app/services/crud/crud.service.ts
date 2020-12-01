@@ -19,11 +19,11 @@ export class CrudService {
     );
   }
 
-  public getData<T>(collectionName: string, handleChanges: boolean = true): Observable<T[]> {
+  public getData<T>(collectionName: string): Observable<T[]> {
     return this.firestoreService
       .collection(collectionName, (ref) => {
         const query: firestore.Query = ref;
-        return query.where('name', '==', 'asdsadasdc');
+        return query.where('name', '==', 'newBook').where('test', '==', 'test');
       })
       .snapshotChanges()
       .pipe(
@@ -34,16 +34,28 @@ export class CrudService {
             return { id, ...data } as T;
           }),
         ),
-        takeWhile(() => handleChanges),
+        take(1),
       );
   }
 
-  public updateObject(collectionName: string, id: string): Observable<void> {
+  public handleData<T>(collectionName: string): Observable<T[]> {
+    return this.firestoreService
+      .collection(collectionName)
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data: any = a.payload.doc.data();
+            const { id } = a.payload.doc;
+            return { id, ...data } as T;
+          }),
+        ),
+      );
+  }
+
+  public updateObject(collectionName: string, id: string, data: {}): Observable<void> {
     return from(
-      this.firestoreService
-        .collection(collectionName)
-        .doc(id)
-        .set({ name: 'asdasd21d21d' }, { merge: true }),
+      this.firestoreService.collection(collectionName).doc(id).set(data, { merge: true }),
     ).pipe(take(1));
   }
 

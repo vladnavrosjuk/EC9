@@ -43,6 +43,6 @@ export class AuthService {
   }
 
   private updateUserData(user): void {
-    this.crudServiceService.updateObject('users', user.uid);
+    /* this.crudServiceService.updateObject('users', user.uid); */
   }
 }

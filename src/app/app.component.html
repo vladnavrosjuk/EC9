@@ -1,11 +1,11 @@
-<div>HEAD</div>
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
-<a routerLink="/home" routerLinkActive="active-link"> Go home </a>
-<a routerLink="/account" routerLinkActive="active-link"> Go Account </a>
-<button (click)="navigate()"> Go home button</button>
-<router-outlet></router-outlet>
-<div>Footer</div>
-
-
-
+<div class="app">
+  <ng-container *ngFor="let note of notes, trackBy: trackByFn ,let i = index">
+    <app-note
+      [note]="note"></app-note>
+  </ng-container>
+</div>
+<div class="toolbar" id="toolbar" tabindex="0">
+  <button class="add material-icons" (click)="createNote()">
+    note_add
+  </button>
+</div>
