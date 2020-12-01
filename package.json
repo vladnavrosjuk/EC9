@@ -6,6 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "fix": "ng lint --fix",
+    "deploy": "ng build --prod --aot && firebase deploy",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
