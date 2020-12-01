@@ -1,28 +1,30 @@
-import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
+import { from, Observable, of } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { CrudService } from '../crud/crud.service';
 import auth = firebase.auth;
-import {from, Observable, of} from 'rxjs';
-import {switchMap, take, tap} from 'rxjs/operators';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {CrudService} from '../crud/crud.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   public user$: Observable<firebase.User>;
 
-  constructor(private angAuthService: AngularFireAuth, private crudServiceService: CrudService, private firestoreService: AngularFirestore) {
+  constructor(
+    private angAuthService: AngularFireAuth,
+    private crudServiceService: CrudService,
+    private firestoreService: AngularFirestore,
+  ) {
     this.user$ = this.angAuthService.authState.pipe(
       switchMap((user: firebase.User) => {
         if (user) {
           return this.firestoreService.doc<firebase.User>(`users/${user.uid}`).valueChanges();
-        } else {
-          return of(null);
         }
-      })
+        return of(null);
+      }),
     );
   }
 
@@ -32,7 +34,8 @@ export class AuthService {
       tap((userCred: auth.UserCredential) => {
         this.updateUserData(userCred.user);
       }),
-      take(1));
+      take(1),
+    );
   }
 
   public signOut(): Observable<void> {

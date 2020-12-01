@@ -1,16 +1,11 @@
-import {NgModule} from '@angular/core';
-import {AccountComponent} from './account.component';
-import {CommonModule} from '@angular/common';
-import {AccountRoutingModule} from './account-routing.module';
-
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AccountComponent } from './account.component';
+import { AccountRoutingModule } from './account-routing.module';
 
 @NgModule({
   declarations: [AccountComponent],
   exports: [AccountComponent],
-  imports: [
-    CommonModule,
-    AccountRoutingModule
-  ]
+  imports: [CommonModule, AccountRoutingModule],
 })
-export class AccountModule {
-}
+export class AccountModule {}
