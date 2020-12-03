@@ -56,11 +56,11 @@ export class AppComponent implements OnInit {
   }
 
   public createNote(): Observable<string> {
-    const note: NoteModel = { name: '', content: '' };
+    const note: NoteModel = { name: '', content: '', date: new Date().getTime() };
     return this.crudService.createEntity('notes', note);
   }
 
-  public trackByFn(index): string {
-    return index;
+  public trackByFn(index: number, note: NoteModel): string {
+    return note?.id;
   }
 }

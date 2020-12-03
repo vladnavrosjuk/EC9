@@ -40,7 +40,10 @@ export class CrudService {
 
   public handleData<T>(collectionName: string): Observable<T[]> {
     return this.firestoreService
-      .collection(collectionName)
+      .collection(collectionName, (ref) => {
+        const query: firestore.Query = ref;
+        return query.orderBy('date');
+      })
       .snapshotChanges()
       .pipe(
         map((actions) =>
