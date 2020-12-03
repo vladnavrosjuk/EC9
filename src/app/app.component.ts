@@ -35,7 +35,9 @@ export class AppComponent implements OnInit {
   }
 
   public getNotes(): void {
+    console.log('asd');
     this.crudService
+
       .handleData<NoteModel>('notes')
       .pipe(
         tap((notes: NoteModel[]) => {
