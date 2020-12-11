@@ -9,10 +9,10 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { NoteComponent } from './note/note.component';
+import { ZoomDirective } from './zoom.directive';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NoteComponent],
+  declarations: [AppComponent, HomeComponent, ZoomDirective],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

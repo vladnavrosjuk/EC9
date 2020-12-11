@@ -1,11 +1,1 @@
-<div class="app">
-  <ng-container *ngFor="let note of notes, trackBy: trackByFn ,let i = index">
-    <app-note
-      [note]="note"></app-note>
-  </ng-container>
-</div>
-<div class="toolbar" id="toolbar" tabindex="0">
-  <button class="add material-icons" (click)="createNote()">
-    note_add
-  </button>
-</div>
+{{notes?.length}}
