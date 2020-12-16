@@ -15,15 +15,15 @@ export class CrudService {
   public createEntity(collectionName: string, data: {}): Observable<string> {
     return from(this.firestoreService.collection(collectionName).add(data)).pipe(
       map((value: DocumentReference) => value.id),
-      take(1)
+      take(1),
     );
   }
 
-  public getData<T>(collectionName: string, handleChanges = true): Observable<T[]> {
+  public getData<T>(collectionName: string): Observable<T[]> {
     return this.firestoreService
       .collection(collectionName, (ref) => {
         const query: firestore.Query = ref;
-        return query.where('name', '==', 'asdsadasdc');
+        return query.where('name', '==', 'newBook').where('test', '==', 'test');
       })
       .snapshotChanges()
       .pipe(
@@ -32,14 +32,31 @@ export class CrudService {
             const data: any = a.payload.doc.data();
             const { id } = a.payload.doc;
             return { id, ...data } as T;
-          })
+          }),
         ),
-        takeWhile(() => handleChanges)
+        take(1),
       );
   }
 
-  public updateObject(collectionName: string, id: string): Observable<void> {
-    return from(this.firestoreService.collection(collectionName).doc(id).set({ name: 'asdasd21d21d' }, { merge: true })).pipe(take(1));
+  public handleData<T>(collectionName: string): Observable<T[]> {
+    return this.firestoreService
+      .collection(collectionName)
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data: any = a.payload.doc.data();
+            const { id } = a.payload.doc;
+            return { id, ...data } as T;
+          }),
+        ),
+      );
+  }
+
+  public updateObject(collectionName: string, id: string, data: {}): Observable<void> {
+    return from(
+      this.firestoreService.collection(collectionName).doc(id).set(data, { merge: true }),
+    ).pipe(take(1));
   }
 
   public delete(collectionName: string, id: string): Observable<void> {

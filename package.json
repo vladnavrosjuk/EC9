@@ -4,11 +4,22 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot && firebase deploy",
+    "build": "ng build",
     "test": "ng test",
-    "lint": "tsc --noEmit && eslint . --ext js,ts,json --quiet --fix",
-    "format": "prettier src/**/*.ts --write",
+    "fix": "ng lint --fix",
+    "deploy": "ng build --prod --aot && firebase deploy",
+    "lint": "ng lint",
     "e2e": "ng e2e"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --relative"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -21,31 +32,34 @@
     "@angular/platform-browser": "~11.0.0",
     "@angular/platform-browser-dynamic": "~11.0.0",
     "@angular/router": "~11.0.0",
+    "@angular/service-worker": "~11.0.0",
     "firebase": "^8.1.1",
+    "browserify": "^13.0.1",
+    "uglifyjs": "^2.4.10",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1100.1",
+    "@angular-devkit/build-angular": "^0.1100.1",
+    "@angular-eslint/builder": "^0.0.1-alpha.32",
+    "@angular-eslint/eslint-plugin": "^0.0.1-alpha.32",
+    "@angular-eslint/eslint-plugin-template": "^0.0.1-alpha.32",
+    "@angular-eslint/template-parser": "^0.0.1-alpha.32",
     "@angular/cli": "~11.0.1",
     "@angular/compiler-cli": "~11.0.0",
-    "@angular-eslint/builder": "0.0.1-alpha.32",
-    "@angular-eslint/eslint-plugin": "0.0.1-alpha.32",
-    "@angular-eslint/eslint-plugin-template": "0.0.1-alpha.32",
-    "@angular-eslint/schematics": "0.0.1-alpha.32",
-    "eslint-config-airbnb-typescript": "^7.2.1",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jasmine": "^4.1.1",
-    "eslint-plugin-protractor": "^2.1.1",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
-    "@typescript-eslint/parser": "^4.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "codelyzer": "^6.0.0",
-    "eslint": "^7.14.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jasmine": "^4.1.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-protractor": "^2.1.1",
     "husky": "^4.3.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -54,19 +68,11 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": "^10.5.2",
     "prettier": "^2.2.1",
-    "prettier-eslint": "^12.0.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": [
-        "pretty-quick --staged",
-        "npm run lint"
-      ]
-    }
   }
 }

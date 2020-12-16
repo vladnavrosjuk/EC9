@@ -1,38 +1,63 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { filter, tap } from 'rxjs/operators';
+import firebase from 'firebase';
 import { CrudService } from './services/crud/crud.service';
 import { AuthService } from './services/auth/auth.service';
+import { NoteModel } from './interfaces/note.model';
+import { StoreService } from './store.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'firebasetest';
+export class AppComponent implements OnInit {
+  public notes: NoteModel[];
 
-  public books: any[];
+  public user: firebase.User;
 
-  constructor(private crudService: CrudService, public authService: AuthService, private router: Router) {}
+  public showTemplate = true;
+
+  @ViewChild('divElementTest')
+  public testElement: ElementRef;
+
+  @ViewChild('templateRef')
+  public testTemplate: TemplateRef<any>;
+
+  constructor(
+    private crudService: CrudService,
+    public authService: AuthService,
+    public cdr: ChangeDetectorRef,
+    private router: Router,
+    private storeService: StoreService,
+  ) {}
+
+  @HostListener('window:resize')
+  public onWindowResize() {
+    console.log('windowResize');
+  }
+
+  public mouseenter() {
+    console.log('mouseenter');
+  }
 
   public navigate(): void {
     this.router.navigate(['home']);
   }
 
-  public addObject(): void {
-    this.crudService.createEntity('books', { name: 'asdsadasdc' });
-  }
-
-  public readObject(): void {
-    this.crudService.getData<any>('books').subscribe((value: any[]) => console.log(value));
-  }
-
-  public updateObject(): void {
-    this.crudService.updateObject('books', 'AfFabFtjU73PSndTyz4Q').subscribe();
-  }
-
-  public delete(): void {
-    this.crudService.delete('books', 'AfFabFtjU73PSndTyz4Q').subscribe();
+  public getUser(): void {
+    console.log(this.storeService.user);
   }
 
   public login(): void {
@@ -45,13 +70,40 @@ export class AppComponent {
     });
   }
 
-  public getBooks(): void {
-    this.crudService.getData('books').subscribe((value) => {
-      this.books = value;
-    });
+  public getNotes(): void {
+    console.log('asd');
+    this.crudService
+
+      .handleData<NoteModel>('notes')
+      .pipe(
+        tap((notes: NoteModel[]) => {
+          this.notes = notes;
+          this.cdr.detectChanges();
+          console.log('asd');
+        }),
+        filter((notes: NoteModel[]) => {
+          console.log('asd');
+          return notes?.length === 0;
+        }),
+      )
+      .subscribe();
   }
 
-  public deleteBooks(): void {
-    this.books = [];
+  public ngOnInit(): void {
+    this.storeService.user$.subscribe((value) => {
+      this.user = value;
+    });
+    this.getNotes();
+  }
+
+  public createNote(): void {
+    console.log(this.testElement);
+
+    /* const note: NoteModel = { name: '', content: '', date: new Date().getTime() };
+     return this.crudService.createEntity('notes', note); */
+  }
+
+  public trackByFn(index: number, note: NoteModel): string {
+    return note?.id;
   }
 }

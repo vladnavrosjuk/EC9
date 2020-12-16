@@ -56,6 +56,7 @@ module.exports = {
         'import/prefer-default-export': 'off',
         'class-methods-use-this': 'off',
         'lines-between-class-members': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/unbound-method': [
           'error',
           {
