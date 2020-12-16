@@ -100,6 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.crudService.getByReference();
     this.storeService.user$.subscribe((value) => {
       this.user = value;
     });
