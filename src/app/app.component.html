@@ -1,1 +1,13 @@
-{{notes?.length}}
+<div class="form-group col-12">
+  <input type="file"
+         id="file"
+         #userPhoto
+         (change)="onFileSelected($event)"
+         name="image"
+         autocomplete="off"
+  />
+</div>
+<img *ngIf="imageLink" [src]="imageLink"/>
+<progress max="100" [value]="progress"></progress>
+
+
